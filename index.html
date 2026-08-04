@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1769e0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="课表">
+  <title>郑华课表</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-name">郑华课表</div>
+      <div class="brand-term">2026-2027 学年第 1 学期</div>
+    </div>
+    <button class="icon-btn" id="settingsBtn" type="button" aria-label="设置" title="设置">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+        <circle cx="12" cy="12" r="3"/>
+      </svg>
+    </button>
+  </header>
+
+  <main id="app">
+    <section class="view" id="todayView" aria-label="今日课程"></section>
+    <section class="view hidden" id="weekView" aria-label="周课表"></section>
+    <section class="view hidden" id="semesterView" aria-label="学期课程"></section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="主导航">
+    <button class="nav-item is-active" data-tab="today" type="button" aria-label="今日">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect width="18" height="18" x="3" y="4" rx="2"/>
+        <line x1="16" x2="16" y1="2" y2="6"/>
+        <line x1="8" x2="8" y1="2" y2="6"/>
+        <line x1="3" x2="21" y1="10" y2="10"/>
+        <circle cx="12" cy="15" r="1.6" fill="currentColor" stroke="none"/>
+      </svg>
+      <span>今日</span>
+    </button>
+    <button class="nav-item" data-tab="week" type="button" aria-label="周课表">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect width="18" height="18" x="3" y="3" rx="2"/>
+        <path d="M3 9h18"/>
+        <path d="M9 21V9"/>
+      </svg>
+      <span>周课表</span>
+    </button>
+    <button class="nav-item" data-tab="semester" type="button" aria-label="学期">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+      </svg>
+      <span>学期</span>
+    </button>
+  </nav>
+
+  <div class="modal-backdrop hidden" id="detailModal" role="dialog" aria-modal="true" aria-label="课程详情">
+    <div class="modal">
+      <button class="icon-btn modal-close" id="detailClose" type="button" aria-label="关闭" title="关闭">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M18 6 6 18"/>
+          <path d="m6 6 12 12"/>
+        </svg>
+      </button>
+      <div id="detailBody"></div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="settingsModal" role="dialog" aria-modal="true" aria-label="设置">
+    <div class="modal">
+      <button class="icon-btn modal-close" id="settingsClose" type="button" aria-label="关闭" title="关闭">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M18 6 6 18"/>
+          <path d="m6 6 12 12"/>
+        </svg>
+      </button>
+      <h2 class="modal-title">设置</h2>
+      <form id="settingsForm">
+        <label class="field-label" for="startDate">开学日期</label>
+        <input class="text-input" type="date" id="startDate" name="startDate">
+
+        <fieldset class="segmented" id="weekMode">
+          <legend class="visually-hidden">周次方式</legend>
+          <label>
+            <input type="radio" name="weekMode" value="auto">
+            <span>自动</span>
+          </label>
+          <label>
+            <input type="radio" name="weekMode" value="manual">
+            <span>手动</span>
+          </label>
+        </fieldset>
+
+        <label class="field-label" for="manualWeek">当前周次</label>
+        <select class="text-input" id="manualWeek" name="manualWeek"></select>
+
+        <button class="primary-btn" type="submit">保存</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
