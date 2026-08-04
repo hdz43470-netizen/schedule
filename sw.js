@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_NAME = 'zh-schedule-v1';
+const CACHE_NAME = 'zh-schedule-v2';
 const ASSETS = [
   './',
   './index.html',
